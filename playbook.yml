@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Scan and Fix
+      include_role:
+        name: infra-service.log4j
+        
