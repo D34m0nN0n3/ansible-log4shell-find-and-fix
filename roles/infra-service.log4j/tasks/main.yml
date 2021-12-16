@@ -21,7 +21,7 @@
 
 - name: Vulnerable log4j
   set_fact:
-    vulnerable_log4j: "{{ result.stdout | regex_findall('(?P<VULNERABLE>(?P<VULNERABLE>VULNERABLE))', multiline=True, ignorecase=True) }}"
+    vulnerable_log4j: "{{ result.stdout | regex_findall('(?P<VULNERABLE>VULNERABLE)', multiline=True, ignorecase=True) }}"
     cacheable: no
 
 - name: Get path for log4j lib
