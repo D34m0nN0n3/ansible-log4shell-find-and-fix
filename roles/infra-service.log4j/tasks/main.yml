@@ -39,7 +39,9 @@
       command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
       loop: "{{ path_log4j }}"
 
-#    - name: Remove class JndiManager
-#      command: "zip -q -d {{ item }} org/apache/logging/log4j/core/net/JndiManager.class "
-#      loop: "{{ path_log4j }}"
-  when: ('2.15.0' not in version_log4j)
+    - name: Create file fixed
+      file:
+        path: /root/log4j-fixed
+        state: touch
+        mode: u=rw,g=r,o=r
+  when: (log4j_fix is defined and log4j_fix | bool == true ) and ('2.15.0' not in version_log4j)
