@@ -38,5 +38,4 @@
     - name: Remove class
       command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
       loop: "{{ path_log4j }}"
-      check_mode: yes
   when: ('2.15.0' not in version_log4j)
