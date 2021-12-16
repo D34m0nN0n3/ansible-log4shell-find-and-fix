@@ -34,7 +34,7 @@
             <span class="badge badge-pill badge-success">PASS</span>
             {% else %}
             {%  for info in info_log4j %}
-            <span class="badge badge-pill badge-danger">{{ info }}</span>  
+            <span class="badge badge-pill badge-danger">{{ info }}</span>{% if not loop.last %}<br />{% endif %}
             {%  endfor %}
             {% endif %}
             </td>
