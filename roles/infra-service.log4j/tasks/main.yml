@@ -24,7 +24,7 @@
 
 - debug:
     msg: "ENV"
-  when: 2.12 in vulnerable_log4shell
+  when: 2.14.0 - 2.14.1 in vulnerable_log4shell or 2.13.0 - 2.13.3 in vulnerable_log4shell or 2.12.0 - 2.12.1 in vulnerable_log4shell
 
 - debug:
     msg: "Manual"
