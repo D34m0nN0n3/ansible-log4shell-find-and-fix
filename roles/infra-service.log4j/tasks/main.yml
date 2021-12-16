@@ -1,7 +1,7 @@
 ---
 - name: Check if lib fixed
   stat: path="/root/log4j-fixed"
-  register: log4j-fixed
+  register: log4j_fixed_stat
 
 - name: Copy finder script
   copy:
