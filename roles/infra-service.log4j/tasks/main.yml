@@ -16,6 +16,7 @@
 - name: Get libs number log4j
   set_fact:
     vulnerable_log4shell: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[12].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) | unique }}"
+    cacheable: no
 
 - debug:
     msg: "{{ item }}"
