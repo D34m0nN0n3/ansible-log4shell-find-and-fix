@@ -1,4 +1,8 @@
 ---
+- name: Check if lib fixed
+  stat: path="/root/log4j-fixed"
+  register: log4j-fixed
+
 - name: Copy finder script
   copy:
     src: "log4j-finder"
@@ -48,19 +52,3 @@
         state: touch
         mode: u=rw,g=r,o=r
   when: (log4j_fix is defined and log4j_fix | bool == true ) and ('2.15.0' not in version_log4j)
-
-- name: Update log4j to 2.16.0
-  block:
-    - name: Copy lib
-      copy:
-        src: "log4j-core-2.16.0.jar"
-        dest: "{{ item }}"
-        backup: yes
-      loop: "{{ path_log4j }}"
-
-    - name: Create file fixed
-      file:
-        path: /root/log4j-fixed
-        state: touch
-        mode: u=rw,g=r,o=r
-  when: (log4j_update is defined and log4j_update | bool == true )
