@@ -15,13 +15,17 @@
 
 - name: Get libs number log4j
   set_fact:
-    vulnerable_log4shell: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[12].\\d{1,2}', multiline=True, ignorecase=True) | unique }}"
+    vulnerable_log4shell: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.\\d{1,2}.-.[2].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) | unique }}"
     cacheable: no
 
 - debug:
+    msg: "{{ item }}"
+  loop: "{{ vulnerable_log4shell }}"
+
+- debug:
     msg: "ENV"
-  when: vulnerable_log4shell  | version_compare('2.12', '>=')
+  when: 2.12 in vulnerable_log4shell
 
 - debug:
     msg: "Manual"
-  when: vulnerable_log4shell  | version_compare('2.15', '==')
+  when: 2.9 in vulnerable_log4shell
