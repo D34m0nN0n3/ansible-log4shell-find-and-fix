@@ -21,19 +21,22 @@
     version_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.\\d{1,2}.-.[2].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) }}"
     cacheable: no
 
-- debug:
+- name: Show paths
+  debug:
     msg: "{{ item }}"
   loop: "{{ path_log4j }}"
 
-- debug:
+- name: Show versions
+  debug:
     msg: "{{ item }}"
   loop: "{{ version_log4j }}"
 
-- debug:
+- name: Show paths and versions
+  debug:
     msg: "PATH: {{ item.0 }}, VERSION: {{ item.1 }}"
   loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
-- name: Remove JndiLookup.class and JndiManager from the libs
+- name: Remove JndiLookup.class from the libs
   block:
     - name: Remove class JndiLookup
       command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
@@ -45,3 +48,19 @@
         state: touch
         mode: u=rw,g=r,o=r
   when: (log4j_fix is defined and log4j_fix | bool == true ) and ('2.15.0' not in version_log4j)
+
+- name: Update log4j to 2.16.0
+  block:
+    - name: Copy lib
+      copy:
+        src: "log4j-core-2.16.0.jar"
+        dest: "{{ item }}"
+        backup: yes
+      loop: "{{ path_log4j }}"
+
+    - name: Create file fixed
+      file:
+        path: /root/log4j-fixed
+        state: touch
+        mode: u=rw,g=r,o=r
+  when: (log4j_update is defined and log4j_update | bool == true )
