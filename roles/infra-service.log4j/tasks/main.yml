@@ -30,6 +30,10 @@
   loop: "{{ version_log4j }}"
 
 - debug:
+    msg: "{{ item }}"
+  loop: "{{ path_log4j | zip(version_log4j) | list }}"
+
+- debug:
     msg: "PATH: {{ item.key }},VERSION: {{ item.value }}"
   loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
