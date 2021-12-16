@@ -14,5 +14,5 @@
   register: result
 
 - debug:
-    msg: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[12].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) | regex_search(log4j 2..0 - 2.11.2 }}"
+    msg: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[12].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) }}"
 
