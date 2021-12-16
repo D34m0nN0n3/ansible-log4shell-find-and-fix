@@ -19,6 +19,11 @@
   changed_when: false
   register: result
 
+- name: Vulnerable log4j
+  set_fact:
+    vulnerable_log4j: "{{ result.stdout | regex_findall('(?P<VULNERABLE>(?P<VULNERABLE>VULNERABLE))', multiline=True, ignorecase=True) }}"
+    cacheable: no
+
 - name: Get path for log4j lib
   set_fact:
     path_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?!\\[1m)[/]\\S*jar', multiline=True, ignorecase=True) }}"
@@ -28,6 +33,12 @@
   set_fact:
     version_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.\\d{1,2}.-.[2].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) }}"
     cacheable: no
+
+- name: Set fatc paths and versions log4j lib
+  set_fact:
+    info_log4j: "'PATH: '+{{ item.0 }}+', VERSION: '+{{ item.1 }}"
+    cacheable: no
+  loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
 - name: Show paths
   debug:
@@ -41,8 +52,8 @@
 
 - name: Show paths and versions
   debug:
-    msg: "PATH: {{ item.0 }}, VERSION: {{ item.1 }}"
-  loop: "{{ path_log4j | zip(version_log4j) | list }}"
+    msg: "{{ item }}"
+  loop: "{{ info_log4j }}"
 
 - name: Remove JndiLookup.class from the libs
   block:
@@ -56,3 +67,36 @@
         state: touch
         mode: u=rw,g=r,o=r
   when: (log4j_fix is defined and log4j_fix | bool == true ) and ('2.15.0' not in version_log4j)
+
+- name: Create data fact
+  set_fact:
+    report_date: "{{ '%Y-%m-%d' | strftime }}"
+  delegate_to: localhost
+  run_once: true
+
+- name: Create random number
+  set_fact:
+    random_num: "{{ lookup('password', '/dev/null chars=hexdigits length=6') }}"
+    cacheable: no
+  delegate_to: localhost
+  run_once: true
+
+- name: Create temp path for report
+  set_fact:
+    report_html: "/var/tmp/log4j_{{ report_date }}_{{ random_num }}.html"
+    cacheable: no
+  delegate_to: localhost
+  run_once: true
+
+- name: Create reports
+  template:
+    src: report.j2
+    dest: "{{ report_html }}"
+  delegate_to: localhost
+  run_once: true
+  become: false
+
+- name: Include task for generate ans send mail report
+  include: report.yml
+  when: mail_host is defined and (mail_rcpt_to is defined or report_cont_mail is defined)
+...
