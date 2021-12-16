@@ -30,8 +30,8 @@
   loop: "{{ version_log4j }}"
 
 - debug:
-    msg: "PATH: {{ item.0 }},VERSION: {{ item.1 }}"
-  loop: "{{ path_log4j | product(version_log4j) | list }}"
+    msg: "PATH: {{ item.key }},VERSION: {{ item.value }}"
+  loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
 - name: Remove JndiLookup.class from the class path
   block:
