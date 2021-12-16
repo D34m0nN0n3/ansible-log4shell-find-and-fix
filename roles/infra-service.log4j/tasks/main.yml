@@ -36,7 +36,7 @@
 
 - name: Set fatc paths and versions log4j lib
   set_fact:
-    info_log4j: "{{ info_log4j | default([]) }} + 'PATH: ' + {{ item.0 }} + ', VERSION: ' + {{ item.1 }}"
+    info_log4j: "'PATH: ' + {{ item.0 }} + ', VERSION: ' + {{ item.1 }}"
     cacheable: no
   loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
