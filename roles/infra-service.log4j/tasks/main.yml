@@ -36,4 +36,4 @@
           msg: "{{ item }}"
       loop: "{{ version_log4j }}"
 
-  when: ('2.15.0' not in vulnerable_log4shell)
+  when: not ('2.15.0' in vulnerable_log4shell)
