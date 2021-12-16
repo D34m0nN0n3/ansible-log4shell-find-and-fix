@@ -39,7 +39,7 @@
       command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
       loop: "{{ path_log4j }}"
 
-    - name: Remove class JndiManager
-      command: "zip -q -d {{ item }} org/apache/logging/log4j/core/net/JndiManager.class "
-      loop: "{{ path_log4j }}"
+#    - name: Remove class JndiManager
+#      command: "zip -q -d {{ item }} org/apache/logging/log4j/core/net/JndiManager.class "
+#      loop: "{{ path_log4j }}"
   when: ('2.15.0' not in version_log4j)
