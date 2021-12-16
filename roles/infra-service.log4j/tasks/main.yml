@@ -1,39 +1,39 @@
 ---
 - name: Copy finder script
   copy:
-    src: "log4j-finder.py"
-    dest: "/root/log4j-finder.py"
+    src: "log4j-finder"
+    dest: "/root/log4j-finder"
     owner: root
     group: root
     mode: "0750"
 
 - name: Run a script finder log4shell
-  script: /root/log4j-finder.py
-  args:
-    executable: python3
+  command: /root/log4j-finder
   register: result
 
-- name: Get libs number log4j
+- name: Get path for log4j lib
   set_fact:
-    vulnerable_log4shell: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.\\d{1,2}.-.[2].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) }}"
+    path_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?!\\[1m)[/]\\S*jar(?<!\\u001)', multiline=True, ignorecase=True) }}"
+    cacheable: no
+
+- name: Get version log4j lib
+  set_fact:
+    version_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.\\d{1,2}.-.[2].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) }}"
     cacheable: no
 
 - debug:
     msg: "{{ item }}"
-  loop: "{{ vulnerable_log4shell | unique }}"
+  loop: "{{ path_log4j }}"
 
-- name: Disable lookups environmental variables
+- debug:
+    msg: "{{ item }}"
+  loop: "{{ version_log4j }}"
+
+- name: Remove JndiLookup.class from the class path
   block:
     - name: Set LOG4J_FORMAT_MSG_NO_LOOKUPS to true
       debug:
-        msg: "{{ lookup('env', 'LOG4J_FORMAT_MSG_NO_LOOKUPS') | default('true', True) }}"
+          msg: "{{ item }}"
+      loop: "{{ version_log4j }}"
 
-    - name: Get LOG4J_FORMAT_MSG_NO_LOOKUPS
-      debug:
-        msg: "{{ lookup('env', 'LOG4J_FORMAT_MSG_NO_LOOKUPS') }}"
-  when: ('2.14.0 - 2.14.1' in vulnerable_log4shell) or ('2.13.0 - 2.13.3' in vulnerable_log4shell) or ('2.12.0 - 2.12.1' in vulnerable_log4shell)
-
-- name: Remove JndiLookup.class
-  debug:
-    msg: "Remove JndiLookup.class"
-  when: 2.9 in vulnerable_log4shell
+  when: ('2.15.0' not in vulnerable_log4shell)
