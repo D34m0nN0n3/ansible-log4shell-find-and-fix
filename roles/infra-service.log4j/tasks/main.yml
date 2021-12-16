@@ -33,9 +33,13 @@
     msg: "PATH: {{ item.0 }}, VERSION: {{ item.1 }}"
   loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
-- name: Remove JndiLookup.class from the class path
+- name: Remove JndiLookup.class and JndiManager from the libs
   block:
-    - name: Remove class
+    - name: Remove class JndiLookup
       command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
+      loop: "{{ path_log4j }}"
+
+    - name: Remove class JndiManager
+      command: "zip -q -d {{ item }} org/apache/logging/log4j/core/net/JndiManager.class "
       loop: "{{ path_log4j }}"
   when: ('2.15.0' not in version_log4j)
