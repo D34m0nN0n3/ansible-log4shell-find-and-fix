@@ -19,11 +19,9 @@
     cacheable: no
 
 - debug:
-    msg: "ENV {{item}}"
-  with_items: "{{ vulnerable_log4shell }}"
-  when: "{{item}} != 2.9 and {{item}} > 2.12"
+    msg: "ENV"
+  when: vulnerable_log4shell  | version_compare('2.12', '>=')
 
 - debug:
-    msg: "Manual {{item}}"
-  with_items: "{{ vulnerable_log4shell }}"
-  when: "{{item}} == 2.9"
+    msg: "Manual"
+  when: vulnerable_log4shell  | version_compare('2.15', '==')
