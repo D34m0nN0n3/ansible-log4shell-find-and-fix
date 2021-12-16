@@ -13,7 +13,7 @@
 
 - name: Get path for log4j lib
   set_fact:
-    path_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?!\\[1m)[/]\\S*jar(?<!\\u001)', multiline=True, ignorecase=True) }}"
+    path_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?!\\[1m)[/]\\S*jar', multiline=True, ignorecase=True) }}"
     cacheable: no
 
 - name: Get version log4j lib
