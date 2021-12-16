@@ -16,6 +16,7 @@
 
 - name: Run a script finder log4shell
   command: /root/log4j-finder
+  changed_when: false
   register: result
 
 - name: Get path for log4j lib
