@@ -14,5 +14,5 @@
   register: result
 
 - debug:
-    msg: "{{ result.stdout | regex_findall('VULNERABLE.*', multiline=True, ignorecase=True) }}"
+    msg: "{{ result.stdout | regex_findall('[VULNERABLE].*', multiline=True, ignorecase=True) }}"
 
