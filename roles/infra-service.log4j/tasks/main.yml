@@ -30,18 +30,13 @@
   loop: "{{ version_log4j }}"
 
 - debug:
-    msg: "{{ item }}"
-  loop: "{{ path_log4j | zip(version_log4j) | list }}"
-
-- debug:
-    msg: "PATH: {{ item.0 }},VERSION: {{ item.1 }}"
+    msg: "PATH: {{ item.0 }}, VERSION: {{ item.1 }}"
   loop: "{{ path_log4j | zip(version_log4j) | list }}"
 
 - name: Remove JndiLookup.class from the class path
   block:
-    - name: Set LOG4J_FORMAT_MSG_NO_LOOKUPS to true
-      debug:
-          msg: "{{ item }}"
+    - name: Remove class
+      command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
       loop: "{{ path_log4j }}"
-
+      check_mode: yes
   when: ('2.15.0' not in version_log4j)
