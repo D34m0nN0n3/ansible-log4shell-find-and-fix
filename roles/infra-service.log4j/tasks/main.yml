@@ -19,6 +19,11 @@
     cacheable: no
 
 - debug:
-    msg: "{{ item }}"
+    msg: "ENV {{item}}"
   loop: "{{ vulnerable_log4shell }}"
+  when: "{{item}} != '2.9' and {{item}} > '2.12'"
 
+- debug:
+    msg: "Manual {{item}}"
+  loop: "{{ vulnerable_log4shell }}"
+  when: "{{item}} == '2.9'"
