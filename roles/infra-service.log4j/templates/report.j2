@@ -28,7 +28,7 @@
             <td><span data-toggle="tooltip" data-placement="left" class="badge badge-gray-dark">{{ hostvars[host]['ansible_fqdn'] }}</span></td>
             <td><span data-toggle="tooltip" data-placement="left" class="badge badge-gray">{{ hostvars[host]['ansible_default_ipv4']['address'] }}</span></td>
             <td>
-            {% if vulnerable_log4j is undefined %}
+            {% if vulnerable_log4j|length %}
             {% set vulnerable_log4j = hostvars[host]['vulnerable_log4j'] %}
             <span class="badge badge-pill badge-success">PASS</span>
             {% else %}

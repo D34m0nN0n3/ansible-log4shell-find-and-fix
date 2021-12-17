@@ -24,9 +24,6 @@
     vulnerable_log4j: "{{ result.stdout | regex_findall('(?P<VULNERABLE>VULNERABLE)', multiline=True, ignorecase=True) }}"
     cacheable: no
 
-- debug:
-    var: vulnerable_log4j
-
 - name: Get path for log4j lib
   set_fact:
     path_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?!\\[1m)[/]\\S*jar', multiline=True, ignorecase=True) }}"
