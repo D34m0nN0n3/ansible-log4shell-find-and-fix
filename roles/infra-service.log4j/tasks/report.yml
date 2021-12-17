@@ -20,6 +20,14 @@
   run_once: true
   when: mail_from is undefined
 
+- name: Create recipient mail address
+  set_fact:
+    mail_rcpt_to: "{{ report_cont_mail }}"
+    cacheable: no
+  delegate_to: localhost
+  run_once: true
+  when: mail_rcpt_to is undefined and report_cont_mail is defined
+
 - name: Create temp path for report
   set_fact:
     report_html: "/var/tmp/log4j_{{ report_date }}_{{ random_num }}.html"

@@ -68,34 +68,6 @@
         mode: u=rw,g=r,o=r
   when: (log4j_fix is defined and log4j_fix | bool == true ) and ('2.15.0' not in version_log4j)
 
-- name: Create data fact
-  set_fact:
-    report_date: "{{ '%Y-%m-%d' | strftime }}"
-  delegate_to: localhost
-  run_once: true
-
-- name: Create random number
-  set_fact:
-    random_num: "{{ lookup('password', '/dev/null chars=hexdigits length=6') }}"
-    cacheable: no
-  delegate_to: localhost
-  run_once: true
-
-- name: Create temp path for report
-  set_fact:
-    report_html: "/var/tmp/log4j_{{ report_date }}_{{ random_num }}.html"
-    cacheable: no
-  delegate_to: localhost
-  run_once: true
-
-- name: Create reports
-  template:
-    src: report.j2
-    dest: "{{ report_html }}"
-  delegate_to: localhost
-  run_once: true
-  become: false
-
 - name: Include task for generate ans send mail report
   include: report.yml
   when: mail_host is defined and (mail_rcpt_to is defined or report_cont_mail is defined)
