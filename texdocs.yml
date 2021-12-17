@@ -35,7 +35,7 @@ plugins:
   - with-pdf:
       copyright: https://github.com/D34m0nN0n3
       cover_subtitle: ''
-      output_path: Create_systemd_units_for_ansible-pull.pdf
+      output_path: Log4Shell.pdf
 
 extra_css:
     - assets/extra.css
