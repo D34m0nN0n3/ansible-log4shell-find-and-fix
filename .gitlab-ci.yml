@@ -12,7 +12,6 @@ deploy:
   before_script:
     - if [ ! -d $CI_PROJECT_DIR/docs/assets ];  then ln -s /var/mkdocs/templates/docs/assets/ $CI_PROJECT_DIR/docs/; fi
     - if [ ! -d $CI_PROJECT_DIR/material ];  then ln -s /var/mkdocs/templates/material/ $CI_PROJECT_DIR/; fi
-    - if [ ! -d $CI_PROJECT_DIR/logs ];  then sudo rm -rf $CI_PROJECT_DIR/logs; fi
     - VIRT_SITE_NAME=$(cat texdocs.yml | python /usr/local/lib/python3.6/site-packages/shyaml.py get-value site_description)
   script:
     - cd $CI_PROJECT_DIR && sudo -u mkdocs /var/mkdocs/.local/bin/mkdocs build -c -f texdocs.yml -d "/var/www/base/docs/$VIRT_SITE_NAME"
