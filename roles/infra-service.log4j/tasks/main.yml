@@ -54,6 +54,7 @@
   debug:
     msg: "{{ item }}"
   loop: "{{ info_log4j }}"
+  when: (info_log4j is defined)
 
 - name: Remove JndiLookup.class from the libs
   block:
