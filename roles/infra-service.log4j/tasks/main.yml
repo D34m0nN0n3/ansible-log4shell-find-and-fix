@@ -58,6 +58,13 @@
 
 - name: Remove JndiLookup.class from the libs
   block:
+    - name: Seve copy before remove class
+      copy:
+        src: "{{ item }}"
+        dest: "{{ item }}.orig"
+        remote_src: yes
+      loop: "{{ path_log4j }}"
+
     - name: Remove class JndiLookup
       command: "zip -q -d {{ item }} org/apache/logging/log4j/core/lookup/JndiLookup.class"
       loop: "{{ path_log4j }}"
