@@ -30,14 +30,14 @@
             <td>
             {% if vulnerable_log4j|length %}
             {% set vulnerable_log4j = hostvars[host]['vulnerable_log4j'] %}
-            <span class="badge badge-pill badge-success">PASS</span>
-            {% else %}
             {%  if info_log4j is defined %}
             {%  set info_log4j = hostvars[host]['info_log4j'] %}
             {%  for info in info_log4j %}
             <span class="badge badge-pill badge-danger">{{ info }}</span>{% if not loop.last %}<br />{% endif %}
             {%  endfor %}
             {%  endif %}
+            {% else %}
+            <span class="badge badge-pill badge-success">PASS</span>
             {% endif %}
             </td>
         </tr>
