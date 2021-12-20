@@ -15,6 +15,7 @@ copyright: Copyright &copy; <a href="https://github.com/D34m0nN0n3">Dmitriy Prig
 nav:
     - Общее описание: 'index.md'
     - Ansible роль: 'log4j.md'
+    - Анализ уязвимости: 'check.md'
     - Дополнительные материалы: 'seealso.md'
 
 plugins:
