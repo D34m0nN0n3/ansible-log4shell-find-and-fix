@@ -1,5 +1,5 @@
 site_name: Log4Shell
-site_url: "https://github.com/D34m0nN0n3/ansible-log4shell-find-and-fix"
+site_url: "https://d34m0nn0n3.github.io/ansible-log4shell-find-and-fix"
 site_author: "Dmitriy Prigoda"
 site_description: >-
   CVE-2021-44228 (Log4Shell) поиск и удаление класса из уязвимой библиотеки
