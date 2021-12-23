@@ -19,11 +19,6 @@
   changed_when: false
   register: result
 
-- name: Vulnerable log4j
-  set_fact:
-    vulnerable_log4j: "{{ result.stdout | regex_search('(?P<VULNERABLE>VULNERABLE)') }}"
-    cacheable: no
-
 - name: Get path for log4j lib
   set_fact:
     path_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?!\\[1m)[/]\\S*jar', multiline=True, ignorecase=True) }}"
