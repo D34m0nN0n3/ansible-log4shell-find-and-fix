@@ -26,7 +26,7 @@
 
 - name: Get version log4j lib
   set_fact:
-    version_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.\\d{1,2}.-.[2].\\d{1,2}.\\d{1,2}', multiline=True, ignorecase=True) }}"
+    version_log4j: "{{ result.stdout | regex_findall('(?<=VULNERABLE)*(?<=log4j.)[2].\\d{1,2}.?.?.-.[2].\\d{1,2}.?.?', multiline=True, ignorecase=True) }}"
     cacheable: no
 
 - name: Set fatc paths and versions log4j lib
