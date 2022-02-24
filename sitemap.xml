@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://d34m0nn0n3.github.io/ansible-log4shell-find-and-fix/index.html</loc>
+         <lastmod>2022-02-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://d34m0nn0n3.github.io/ansible-log4shell-find-and-fix/check.html</loc>
+         <lastmod>2022-02-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://d34m0nn0n3.github.io/ansible-log4shell-find-and-fix/log4j.html</loc>
+         <lastmod>2022-02-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://d34m0nn0n3.github.io/ansible-log4shell-find-and-fix/seealso.html</loc>
+         <lastmod>2022-02-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>
